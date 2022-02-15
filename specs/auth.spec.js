@@ -1,11 +1,12 @@
 //Imports block
 import { expect } from 'chai';
 import supertest from 'supertest';
+import 'dotenv/config';
 //
 //describe is a test suit that can contain another test sub suits or test cases
 describe('Auth', () => {
   //Create a request object
-  const request = supertest('https://paysis.herokuapp.com');
+  const request = supertest(process.env.BASE_URL);
 
   //it is a test case with a couple of assertions
   it('Successfull login (happy path, positive tests)', () => {
@@ -14,7 +15,7 @@ describe('Auth', () => {
       //Setup a request method - POST and an endpoint - /auth
       .post('/auth')
       //Setup payload - object with 2 keys - login and password (and their values)
-      .send({ login: 'adminius', password: 'supers3cret' })
+      .send({ login: process.env.LOGIN, password: process.env.PASSWORD })
       //Tests block that can handle error or response
       .end((err, res) => {
         //Test that status code in response equals to 200
