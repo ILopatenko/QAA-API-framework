@@ -4,7 +4,7 @@ import AuthHelper from '../helpers/auth.helper';
 describe('Auth test suite', () => {
   //Create a new instance of AuthHelper
   let authHelper = new AuthHelper();
-  describe('Successful login sub suite (happy path, positive tests)', () => {
+  describe('  Successful login sub suite (happy path, positive tests)', () => {
     //BEFORE hook - will be runned 1st (before all other suits/tests)
     before(async () => {
       //Send async request using our HELPER method login
@@ -17,7 +17,7 @@ describe('Auth test suite', () => {
       expect(authHelper.response.body.token).not.to.be.undefined;
     });
   });
-  describe('Unsuccessful login sub suite (unhappy path, negative tests)', () => {
+  describe('  Unsuccessful login sub suite (unhappy path, negative tests)', () => {
     //BEFORE hook - will be runned 1st (before all other suits/tests)
     before(async () => {
       //Send async request using our HELPER method login

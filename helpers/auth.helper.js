@@ -1,6 +1,5 @@
 import supertest from 'supertest';
 import 'dotenv/config';
-
 class AuthHelper {
   constructor() {
     this.response = null;
