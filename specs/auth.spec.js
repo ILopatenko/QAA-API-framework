@@ -4,7 +4,7 @@ import AuthHelper from '../helpers/auth.helper';
 describe('Auth test suite', () => {
   //Create a new instance of AuthHelper
   let authHelper = new AuthHelper();
-  describe('  Successful login sub suite (happy path, positive tests)', () => {
+  describe('  Successful login sub suite (happy path with valid login and password)', () => {
     //BEFORE hook - will be runned 1st (before all other suits/tests)
     before(async () => {
       //Send async request using our HELPER method login
@@ -13,11 +13,11 @@ describe('Auth test suite', () => {
     it('Checking that response status code is 200', () => {
       expect(authHelper.response.statusCode).to.eq(200);
     });
-    it('Checking that response contains an authorization token', () => {
+    it('Checking that response contains TOKEN key that is not undefined', () => {
       expect(authHelper.response.body.token).not.to.be.undefined;
     });
   });
-  describe('  Unsuccessful login sub suite (unhappy path, negative tests)', () => {
+  describe('  Unsuccessful login sub suite (unhappy path with invalid login and password)', () => {
     //BEFORE hook - will be runned 1st (before all other suits/tests)
     before(async () => {
       //Send async request using our HELPER method login
