@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import AuthHelper from '../helpers/auth.helper';
+import AuthHelper from '../../helpers/auth.helper';
 const authHelper = new AuthHelper();
 describe('Auth test suite', () => {
   describe('\nSuccessful login sub suite (happy path with valid login and password)', () => {

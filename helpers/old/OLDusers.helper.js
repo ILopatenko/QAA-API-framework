@@ -1,51 +1,65 @@
 import supertest from 'supertest';
 
-class ConfigHelper {
+class UsersHelper {
   constructor() {
     this.response = null;
   }
-  //Get config
-  async getConfig() {
-    //Send async request
-    await supertest(process.env.BASE_URL)
-      //Setup a request method - GET and an endpoint - /config
-      .get('/config')
-      //Add token to uou request (for each protected route)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      //Save a response from server to result variable
-      .then((res) => {
-        this.response = res;
-      });
-  }
-
-  //Edit config
-  async editConfig(ent, amo) {
-    //Send async request
-    await supertest(process.env.BASE_URL)
-      //Setup a request method - GET and an endpoint - /config
-      .patch('/config')
-      //Add token to uou request (for each protected route)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      //Setup payload - object with 2 keys - login and password (and their values)
-      .send({ number_of_entries: ent, initial_amount: amo })
-      //Save a response from server to result variable
-      .then((res) => {
-        this.response = res;
-      });
-  }
-
-  //WIPE all the DATA
-  async wipeData() {
+  //Create a new USER
+  async createNew(n) {
     //Send async request
     await supertest(process.env.BASE_URL)
       //Setup a request method - POST and an endpoint - /auth
-      .delete('/config')
+      .post('/users')
       //Add token to uou request (for each protected route)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      //Save a response from server to result variable
+      .then((res) => {
+        this.response = res;
+      });
+  }
+
+  //Get USER by ID
+  async getByID(id) {
+    //Send async request
+    await supertest(process.env.BASE_URL)
+      //Setup a request method - POST and an endpoint - /auth
+      .get(`/users?id=${id}`)
+      //Add token to uou request (for each protected route)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      //Save a response from server to result variable
+      .then((res) => {
+        this.response = res;
+      });
+  }
+
+  //Get all the USERS
+  async getAll() {
+    //Send async request
+    await supertest(process.env.BASE_URL)
+      //Setup a request method - POST and an endpoint - /auth
+      .get('/users')
+      //Add token to uou request (for each protected route)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      //Save a response from server to result variable
+      .then((res) => {
+        this.response = res;
+      });
+  }
+
+  //Delete USER by ID
+  async deleteByID(id) {
+    //Send async request
+    await supertest(process.env.BASE_URL)
+      //Setup a request method - POST and an endpoint - /auth
+      .delete(`/users`)
+      //Add token to uou request (for each protected route)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      //Add payload to request
+      .send({ id: id })
       //Save a response from server to result variable
       .then((res) => {
         this.response = res;
       });
   }
 }
-export default ConfigHelper;
+export default UsersHelper;

@@ -1,5 +1,7 @@
+import common from 'mocha/lib/interfaces/common';
 import supertest from 'supertest';
-
+import CommonHelper from '../helpers/common.helper';
+const commonHelper = new CommonHelper();
 class ConfigHelper {
   constructor() {
     this.response = null;
@@ -45,6 +47,7 @@ class ConfigHelper {
       //Save a response from server to result variable
       .then((res) => {
         this.response = res;
+        commonHelper.wipeLocalDB();
       });
   }
 }

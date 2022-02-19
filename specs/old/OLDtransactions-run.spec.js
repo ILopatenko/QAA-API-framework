@@ -152,23 +152,22 @@ describe('Transactions test suite', () => {
       expect(transactionsHelper.response.body.length).to.be.eq(3);
     });
     it('Checking that random element in response body has ID key that is not undefined', () => {
-      console.log(usersHelper.getRandomItem(transactionsHelper.response.body));
-      expect(usersHelper.getRandomItem(transactionsHelper.response.body).id).not
-        .to.be.undefined;
-
-      console.log(usersHelper.getRandomItem(transactionsHelper.response.body));
+      console.log(commonHelper.getRandomItem(transactionsHelper.response.body));
+      expect(commonHelper.getRandomItem(transactionsHelper.response.body).id)
+        .not.to.be.undefined;
     });
     it('Checking that random element in response body has AMOUNT key that is not undefined', () => {
-      expect(getRandomItem(transactionsHelper.response.body).amount).not.to.be
-        .undefined;
+      expect(
+        commonHelper.getRandomItem(transactionsHelper.response.body).amount
+      ).not.to.be.undefined;
     });
     it('Checking that random element in response body has FROM key that is not undefined', () => {
-      expect(getRandomItem(transactionsHelper.response.body).from).not.to.be
-        .undefined;
+      expect(commonHelper.getRandomItem(transactionsHelper.response.body).from)
+        .not.to.be.undefined;
     });
     it('Checking that random element in response body has TO key that is not undefined', () => {
-      expect(getRandomItem(transactionsHelper.response.body).to).not.to.be
-        .undefined;
+      expect(commonHelper.getRandomItem(transactionsHelper.response.body).to)
+        .not.to.be.undefined;
     });
   });
 

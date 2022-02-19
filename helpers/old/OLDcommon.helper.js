@@ -6,6 +6,7 @@ class CommonHelper {
       users: [],
       transactions: [],
     };
+    this.response;
   }
   getRandomItem = (a) => a[Math.floor(Math.random() * a.length)];
 
@@ -17,6 +18,7 @@ class CommonHelper {
     for (let i = 0; i < n; i++) {
       await usersHelper.createNew();
       let user = usersHelper.response.body;
+      this.response = usersHelper.response;
       this.localDB.users.push(user);
     }
     return this.localDB;
@@ -25,10 +27,10 @@ class CommonHelper {
   generateRandom = (n) => Math.floor(Math.random() * n);
 
   wipeLocalDB = () => {
-    this.localDB = {
+    return (this.localDB = {
       users: [],
       transactions: [],
-    };
+    });
   };
 
   generateValidTransactionBetweenTwoUsers = (array) => {
