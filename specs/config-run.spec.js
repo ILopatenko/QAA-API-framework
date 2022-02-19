@@ -2,16 +2,14 @@ import { expect } from 'chai';
 import ConfigHelper from '../helpers/config.helper';
 //This describe is a main test suite
 describe('Config test suite', () => {
-  let validEntity = 24;
+  let validEntity = 25;
   let invalidEntity = 999;
-  let valid_initial_amount = 5000;
+  let valid_initial_amount = 1000;
 
   //Create a new instance of AuthHelper
   let configHelper = new ConfigHelper();
   describe('  Getting all the configurations', () => {
-    //BEFORE hook - will be runned 1st (before all other suits/tests)
     before(async () => {
-      //Send async request using our HELPER method login
       await configHelper.getConfig();
     });
     it('Checking that response status code is 200', () => {
@@ -26,9 +24,7 @@ describe('Config test suite', () => {
   });
 
   describe(`  Editing all the configurations - happy path with valid values - number_of_entries=${validEntity} and initial_amount=${valid_initial_amount}`, () => {
-    //BEFORE hook - will be runned 1st (before all other suits/tests)
     before(async () => {
-      //Send async request using our HELPER method login
       await configHelper.editConfig(validEntity, valid_initial_amount);
     });
     it('Checking that response status code is 200', () => {

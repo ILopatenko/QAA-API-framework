@@ -7,10 +7,8 @@ describe('\nUsers main test suite', () => {
   let invalidID = 99999;
   let userID;
   before(async () => {
-    console.log('first');
     await usersHelper.createNew();
     userID = usersHelper.response.body.id;
-    console.log(userID);
   });
   describe(' Creating a new USER - happy path with a valid token', () => {
     it('Checking that response status code is 200', () => {
@@ -74,6 +72,7 @@ describe('\nUsers main test suite', () => {
         .undefined;
     });
   });
+
   describe(' Deleting a USER by ID - happy path (with valid ID)', () => {
     before(async () => {
       await usersHelper.deleteByID(userID);
@@ -90,7 +89,6 @@ describe('\nUsers main test suite', () => {
     before(async () => {
       await usersHelper.deleteByID(55658);
     });
-
     it('Checking that response status code is 400', () => {
       expect(usersHelper.response.statusCode).to.eq(400);
     });

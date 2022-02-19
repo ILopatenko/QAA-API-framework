@@ -1,13 +1,16 @@
 import 'dotenv/config';
 import AuthHelper from '../helpers/auth.helper';
 import ConfigHelper from '../helpers/config.helper';
+const authHelper = new AuthHelper();
+const configHelper = new ConfigHelper();
 before(async () => {
-  const authHelper = new AuthHelper();
+  await configHelper.wipeData();
+  console.log('wiped');
   await authHelper.login(process.env.LOGIN, process.env.PASSWORD);
   process.env['TOKEN'] = authHelper.response.body.token;
 });
 
 after(async () => {
-  const configHelper = new ConfigHelper();
   await configHelper.wipeData();
+  console.log('wiped');
 });

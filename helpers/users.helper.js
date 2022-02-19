@@ -5,7 +5,7 @@ class UsersHelper {
     this.response = null;
   }
   //Create a new USER
-  async createNew() {
+  async createNew(n) {
     //Send async request
     await supertest(process.env.BASE_URL)
       //Setup a request method - POST and an endpoint - /auth
