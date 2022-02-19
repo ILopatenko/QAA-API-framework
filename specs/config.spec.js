@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import ConfigHelper from '../helpers/config.helper';
+
 import LocalHeper from '../helpers/localHelper';
 //This describe is a main test suite
 let configHelper = new ConfigHelper();
@@ -9,6 +10,7 @@ describe('Config test suite', () => {
 
   describe('Getting all the configurations', () => {
     before(async () => {
+
       await configHelper.getConfig();
     });
     it('Checking that response status code is 200', () => {
@@ -22,12 +24,14 @@ describe('Config test suite', () => {
     });
   });
 
+
   describe(`Editing all the configurations - happy path with valid values - number_of_entries "${localHeper.testData.config.validConfig.number_of_entries}" and initial_amount "${localHeper.testData.config.validConfig.initial_amount}"`, () => {
     before(async () => {
       await configHelper.editConfig(
         localHeper.testData.config.validConfig.number_of_entries,
         localHeper.testData.config.validConfig.initial_amount
       );
+
     });
     it('Checking that response status code is 200', () => {
       expect(configHelper.response.statusCode).to.eq(200);
@@ -35,17 +39,21 @@ describe('Config test suite', () => {
     it('Checking that response contains number_of_entries key that is not undefined', () => {
       expect(configHelper.response.body.number_of_entries).not.to.be.undefined;
     });
+
     it(`Checking that number_of_entries key has value ${localHeper.testData.config.validConfig.number_of_entries}`, () => {
       expect(configHelper.response.body.number_of_entries).to.be.eq(
         localHeper.testData.config.validConfig.number_of_entries
+
       );
     });
     it('Checking that response contains initial_amount key that is not undefined', () => {
       expect(configHelper.response.body.initial_amount).not.to.be.undefined;
     });
+
     it(`Checking that initial_amount key has value ${localHeper.testData.config.validConfig.initial_amount}`, () => {
       expect(configHelper.response.body.initial_amount).to.be.eq(
         localHeper.testData.config.validConfig.initial_amount
+
       );
     });
   });
@@ -85,6 +93,7 @@ describe('Config test suite', () => {
       );
     });
     it(`Checking that response body has an error message "${localHeper.testData.config.responses.entityAreTooBig.message}"`, () => {
+
       expect(configHelper.response.body.message).to.eq(
         'Number of entries must be between 5 and 25 (inclusively).'
       );

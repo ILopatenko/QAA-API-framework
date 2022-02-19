@@ -1,11 +1,13 @@
 import { expect } from 'chai';
 import AuthHelper from '../helpers/auth.helper';
+
 import LocalHeper from '../helpers/localHelper';
 const authHelper = new AuthHelper();
 const localHelper = new LocalHeper();
 
 describe('\nAuth test suite', () => {
   describe('Successful login (happy path with valid login and password)', () => {
+
     before(async () => {
       await authHelper.login(process.env.LOGIN, process.env.PASSWORD);
     });
@@ -23,6 +25,7 @@ describe('\nAuth test suite', () => {
       );
     });
   });
+
 
   //
   describe('Unsuccessful login sub suite - negative TCs', () => {
@@ -43,6 +46,7 @@ describe('\nAuth test suite', () => {
           localHelper.testData.auth.responses.error.wrongCred.message
         );
       });
+
     });
     //
     describe(`Unsuccessful login with invalid login "${localHelper.testData.auth.invalidCredentials.login}" and valid password "${process.env.PASSWORD}"`, () => {

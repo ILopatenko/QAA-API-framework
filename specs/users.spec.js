@@ -1,4 +1,5 @@
 import UsersHelper from '../helpers/users.helper';
+
 import ConfigHelper from '../helpers/config.helper';
 import { expect } from 'chai';
 import LocalHeper from '../helpers/localHelper';
@@ -131,9 +132,11 @@ describe('USERS Main Test Suite', () => {
           );
         });
       });
+
     });
     //
   });
+
   //
 
   describe('Deleting USER by ID', () => {
@@ -189,6 +192,7 @@ describe('USERS Main Test Suite', () => {
           );
         });
       });
+
     });
     //
     describe('Positive TC - happy path with valid USER ID', () => {
@@ -224,11 +228,13 @@ describe('USERS Main Test Suite', () => {
         });
       });
     });
+
     //
 
     //
   });
   describe('Getting all the USERS', () => {
+
     before(async () => {
       //PRECONDITIONS: wipe server data, wipe localDB, add 12 new users
       configHelper.wipeData();
@@ -262,6 +268,19 @@ describe('USERS Main Test Suite', () => {
       configHelper.wipeData();
       localHelper.wipeLocalDB();
       console.log(`ACTION: Data wiped: server+local`);
+
+    });
+  });
+  describe(' Deleting a USER by ID - unhappy path (with invalid ID)', () => {
+    before(async () => {
+      await usersHelper.deleteByID(55658);
+    });
+
+    it('Checking that response status code is 400', () => {
+      expect(usersHelper.response.statusCode).to.eq(400);
+    });
+    it('Checking that response body has an error message "No user found."', () => {
+      expect(usersHelper.response.body.message).to.eq('No user found.');
     });
   });
 });

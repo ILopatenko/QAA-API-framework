@@ -6,6 +6,7 @@ class TransactionsHelper {
   }
 
   async create(userID1, userID2, amount) {
+
     await supertest(process.env.BASE_URL)
       .post('/transactions')
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
@@ -16,9 +17,11 @@ class TransactionsHelper {
   }
 
   async getAll() {
+
     await supertest(process.env.BASE_URL)
       .get('/transactions')
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
+
       .then((res) => {
         this.response = res;
       });
@@ -28,6 +31,15 @@ class TransactionsHelper {
     await supertest(process.env.BASE_URL)
       .get(`/transactions?id=${id}`)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
+
+    //Send async request
+    await supertest(process.env.BASE_URL)
+      //Setup a request method - POST and an endpoint - /auth
+      .get(`/transactions?id=${id}`)
+      //Add token to uou request (for each protected route)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      //Save a response from server to result variable
+
       .then((res) => {
         this.response = res;
       });

@@ -2,13 +2,16 @@ import { expect } from 'chai';
 import TransactionsHelper from '../helpers/transactions.helper';
 import UsersHelper from '../helpers/users.helper';
 
+
 import ConfigHelper from '../helpers/config.helper';
 import LocalHelper from '../helpers/localHelper';
+
 //This describe is a main test suite
 describe('Transactions test suite', () => {
   //Create a new instance of AuthHelper
   let transactionsHelper = new TransactionsHelper();
   let usersHelper = new UsersHelper();
+
   const configHelper = new ConfigHelper();
   const localHelper = new LocalHelper();
 
@@ -48,6 +51,7 @@ describe('Transactions test suite', () => {
       expect(transactionsHelper.response.statusCode).to.eq(
         localHelper.testData.transaction.responses.succsess.statusCode
       );
+
     });
     it('Checking that response contains ID key that is not undefined', () => {
       expect(transactionsHelper.response.body.id).not.to.be.undefined;
@@ -55,26 +59,31 @@ describe('Transactions test suite', () => {
     it('Checking that response contains FROM key that is not undefined', () => {
       expect(transactionsHelper.response.body.from).not.to.be.undefined;
     });
+
     it(`Checking that FROM key in response has a correct value`, () => {
       expect(transactionsHelper.response.body.from).to.eq(
         localHelper.localDB.transactions[
           localHelper.localDB.transactions.length - 1
         ].from
       );
+
     });
     it('Checking that response contains TO key that is not undefined', () => {
       expect(transactionsHelper.response.body.to).not.to.be.undefined;
     });
+
     it(`Checking that TO key in response has a correct value`, () => {
       expect(transactionsHelper.response.body.to).to.eq(
         localHelper.localDB.transactions[
           localHelper.localDB.transactions.length - 1
         ].to
       );
+
     });
     it('Checking that response contains AMOUNT key that is not undefined', () => {
       expect(transactionsHelper.response.body.amount).not.to.be.undefined;
     });
+
     it(`Checking that AMOUNT key in response has a correct value`, () => {
       expect(transactionsHelper.response.body.amount).to.eq(
         localHelper.localDB.transactions[
@@ -126,6 +135,7 @@ describe('Transactions test suite', () => {
       expect(transactionsHelper.response.statusCode).to.eq(
         localHelper.testData.transaction.responses.error.wrongToID.statusCode
       );
+
     });
     it('Checking that response body has an error message "Receiver not found."', () => {
       expect(transactionsHelper.response.body.message).to.eq(
@@ -133,6 +143,7 @@ describe('Transactions test suite', () => {
       );
     });
   });
+
   describe(`Unsuccessful creating a transaction between 2 users (unhappy path with invalid AMOUNT ${localHelper.testData.transaction.responses.error.wrongTypeAmount.amount})`, () => {
     //BEFORE hook - will be runned 1st (before all other suits/tests)
     before(async () => {
@@ -215,6 +226,7 @@ describe('Transactions test suite', () => {
         localHelper.testData.transaction.responses.succsess.statusCode
       );
     });
+
     it('Checking that response body has ID key that is not undefined', () => {
       expect(transactionsHelper.response.body.id).not.to.be.undefined;
     });
@@ -228,6 +240,7 @@ describe('Transactions test suite', () => {
       expect(transactionsHelper.response.body.to).not.to.be.undefined;
     });
   });
+
   describe(`Get a transaction by ID - unhappy path with invalid TRANSACTION ID ${localHelper.testData.transaction.responses.error.randomTransactionID.id}`, () => {
     before(async () => {
       await transactionsHelper.getByID(
@@ -244,6 +257,7 @@ describe('Transactions test suite', () => {
       expect(transactionsHelper.response.body.message).to.eq(
         localHelper.testData.transaction.responses.error.randomTransactionID
           .message
+
       );
     });
   });
