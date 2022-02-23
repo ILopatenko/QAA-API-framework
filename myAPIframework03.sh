@@ -1,4 +1,6 @@
 #!/bin/bash
+#v0.3 - fixed name separation and test script
+#22/02/2022
 # Color variables
 red='\033[0;31m'
 green='\033[0;32m'
@@ -39,10 +41,11 @@ echo -e "${green}Step 1${clear} - Your project is: ${yellow}$projectName${clear}
 echo
 echo -e "${green}Step 2${clear} - Checking if there is a ${yellow}$projectName${clear} in ${yellow}$(pwd)${clear}"
 echo
-if [ -d $(pwd)"/$projectName" ]
+if [ -d $(pwd)"/"$projectName ]
 then
 echo "  Folder $projectName exists in $(pwd) - I am going to delete it!"
-rm -dr $projectName
+echo $(rm -r $projectName)
+
     if [ -d $(pwd)"/$projectName" ]
     then
     echo "  CAN'T DELETE $projectName in $(pwd)!" && exit
@@ -56,15 +59,18 @@ echo
 echo -e "${green}Step 3${clear} - Clonning your empty repository"
 echo
 echo $(git clone $1)
- if [ -d $(pwd)"/$projectName" ]
+
+ if [ -d $(pwd)"/"$projectName ]
     then
     echo -e "  ${green}Your progect was clonned!${clear}"
+    
     else
     echo -e "  ${red}ERROR!${clear}"
     fi
 echo 
 echo -e "${green}Step 4${clear} - Creating a new NMP project with default values (npm init -y)"
-cd $projectName && npm init -y
+cd $projectName 
+echo $(npm init -y)
 if [ -f 'package.json' ] 
 then
     echo -e    "   ${green}Progect was created!${clear}"
@@ -73,7 +79,7 @@ else
 fi
 echo 
 echo -e "${green}Step 5${clear} - Installing all the 3rd party packages: babel, mocha, chai, supertest, dotenv, express, body-parser"
-npm i -D @babel/cli @babel/core @babel/plugin-transform-runtime @babel/preset-env @babel/register mocha chai supertest dotenv express body-parser json
+echo $(npm i -D @babel/cli @babel/core @babel/plugin-transform-runtime @babel/preset-env @babel/register mocha chai supertest dotenv express body-parser )
 echo
 echo -e "${green}Step 6${clear} - Setting up babel"
 echo '
@@ -98,7 +104,12 @@ cat .mocharc.js
 echo 
 echo -e "${green}Step 8${clear} - Fixing npm script TEST"
 
-json --in-place -f package.json -e 'this.scripts={"test": "npx mocha --confug .mocharc.js"}'
+text=$(cat package.json)
+target=`echo \"Error: no test specified\" && exit 1`
+new='npx mocha --confug .mocharc.js'
+final=${text//'echo \"Error: no test specified\" && exit 1'/"npx mocha --confug .mocharc.js"}
+$(echo $final > package.json)
+
 echo -e "   ${green}New package.json is${clear}"
 cat package.json
 
@@ -180,18 +191,15 @@ echo -e "${green}Step 11${clear} - RUN the TESTS!"
 echo $(npm run test)
 
 echo 
-echo -e "${green}Step 12$ - IT'S TIME TO PUSH ALL THE CHANGES TO YOUR GITHUB REPO! ${clear}"
-#echo $(git status)
-#echo $(git add .)
-#echo $(git status)
-#echo $(git commit -m 'Test automation framework' -m 'Everything is ready to TEST!')
-#echo $(git push)
+echo -e "${green}Step 12 - IT'S TIME TO PUSH ALL THE CHANGES TO YOUR GITHUB REPO! ${clear}"
+echo $(git status)
+echo $(git add .)
+echo $(git status)
+echo $(git commit -m 'Test automation framework' -m 'Everything is ready to TEST!')
+echo $(git push)
 
 echo -e "${magenta}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${clear}"
 echo -e "${magenta}+${yellow}    It seems to me that your NEW TESTAUTOMATION FRAMEWORK IS READY TO WORK     ${magenta}+${clear}"
 echo -e "${magenta}+${red}              YOU JUST NEED TO START WRITING YOUR TEST CASES                   ${magenta}+${clear}"
 echo -e "${magenta}+${green}                             HAVE A GREAT TEST!                                ${magenta}+${clear}"
 echo -e "${magenta}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${clear}"
-
-
-
