@@ -106,8 +106,8 @@ echo -e "${green}Step 8${clear} - Fixing npm script TEST"
 
 text=$(cat package.json)
 target=`echo \"Error: no test specified\" && exit 1`
-new='npx mocha --confug .mocharc.js'
-final=${text//'echo \"Error: no test specified\" && exit 1'/"npx mocha --confug .mocharc.js"}
+new='npx mocha --config .mocharc.js'
+final=${text//'echo \"Error: no test specified\" && exit 1'/"npx mocha --config .mocharc.js"}
 $(echo $final > package.json)
 
 echo -e "   ${green}New package.json is${clear}"
