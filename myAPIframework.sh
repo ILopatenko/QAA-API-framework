@@ -28,7 +28,9 @@ fi
 
 #Separate project name from gitHub link
 cutted=${gitHubLink##*/}
-projectName=${cutted::-4}
+length=${#cutted}
+projectName=${cutted:0:length-4}
+
 echo
 echo 
 echo -e "${green}Step 0${clear} - Right now your terminal is in: ${yellow}$(pwd)${clear}"
@@ -96,8 +98,7 @@ cat .mocharc.js
 echo 
 echo -e "${green}Step 8${clear} - Fixing npm script TEST"
 
-
-json --in-place -f package.json -e 'this.scripts={"test": "npx mocha --config .mocharc.js"}'
+json --in-place -f package.json -e 'this.scripts={"test": "npx mocha --confug .mocharc.js"}'
 echo -e "   ${green}New package.json is${clear}"
 cat package.json
 
@@ -180,18 +181,17 @@ echo $(npm run test)
 
 echo 
 echo -e "${green}Step 12$ - IT'S TIME TO PUSH ALL THE CHANGES TO YOUR GITHUB REPO! ${clear}"
-echo $(git status)
-echo $(git add .)
-echo $(git status)
-echo $(git commit -m 'Test automation framework' -m 'Everything is ready to TEST!')
-echo $(git push)
+#echo $(git status)
+#echo $(git add .)
+#echo $(git status)
+#echo $(git commit -m 'Test automation framework' -m 'Everything is ready to TEST!')
+#echo $(git push)
 
 echo -e "${magenta}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${clear}"
 echo -e "${magenta}+${yellow}    It seems to me that your NEW TESTAUTOMATION FRAMEWORK IS READY TO WORK     ${magenta}+${clear}"
 echo -e "${magenta}+${red}              YOU JUST NEED TO START WRITING YOUR TEST CASES                   ${magenta}+${clear}"
 echo -e "${magenta}+${green}                             HAVE A GREAT TEST!                                ${magenta}+${clear}"
 echo -e "${magenta}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${clear}"
-
 
 
 
