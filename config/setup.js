@@ -5,12 +5,15 @@ const authHelper = new AuthHelper();
 const configHelper = new ConfigHelper();
 before(async () => {
   await configHelper.wipeData();
-  console.log('ACCDTION: Data wiped (server)');
+  console.log('setup action ACCDTION: Data wiped (server)');
   await authHelper.login(process.env.LOGIN, process.env.PASSWORD);
-  process.env['TOKEN'] = authHelper.response.body.token;
+  process.env.VARIABLE = 'TRALALALALA';
+  console.log('variable is', process.env.VARIABLE);
+  console.log('HEYHEY is', process.env.HEYHEY);
+  process.env.TOKEN = authHelper.response.body.token;
 });
 
 after(async () => {
   await configHelper.wipeData();
-  console.log('ACCDTION: Data wiped (server)');
+  console.log('ACTION: Data wiped (server)');
 });

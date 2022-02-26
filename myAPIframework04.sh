@@ -44,7 +44,7 @@ echo
 if [ -d $(pwd)"/"$projectName ]
 then
 echo "  Folder $projectName exists in $(pwd) - I am going to delete it!"
-echo $(rm -r $projectName)
+echo $(rm -rf $projectName)
 
     if [ -d $(pwd)"/$projectName" ]
     then
@@ -96,51 +96,90 @@ cat .babelrc
 echo 
 echo -e "${green}Step 7${clear} - Setting up mocha"
 echo "module.exports = {
+    //Import babel to the project
   require: '@babel/register',
+    //Setup all the specs that will be runned
   spec: 'specs/**/*.spec.js',
+    //Setup configuretion file - MAIN HOOKS
+  file: 'config/setup.js',
+    //Setup all the specs that will be ignored
+  //ignore: 'specs/example.spec',
+    //Setup additionall timeout (2000 by default)
+  //timeout: 10000
 }" >> .mocharc.js
 echo -e "   ${green}New .mocharc.js is${clear}"
 cat .mocharc.js
-echo 
-echo -e "${green}Step 8${clear} - Fixing npm script TEST"
 
+
+echo 
+echo -e "${green}Step 8${clear} - Setting up main config file"
+mkdir config
+touch config/setup.js
+echo "
+//IMPORT SECTION
+//  Import dotenv package - to work with environmental project's variables
+import 'dotenv/config';
+//  Import Helper(s)
+import AuthHelper from '../helpers/auth.helper';
+//  Create a new instanse of helper
+const authHelper = new AuthHelper();
+//MAIN MOCHA HOOKS
+//  Before - will be runned before all the tests - MAIN PRECONDITIONS
+before(async () => {
+  //Create a new user / login / save a token to variable etc
+    await authHelper.login(process.env.LOGIN, process.env.PASSWORD);
+    process.env.TOKEN = authHelper.response.body.token;
+});
+//  After - will be runned after all the tests - MAIN POSTCONDITIONS
+after(async () => {
+  //Clear all the test changes
+});
+" >> config/setup.js
+echo -e "   ${green}New setup.js is${clear}"
+cat config/setup.js
+
+echo 
+echo -e "${green}Step 9${clear} - Fixing npm script TEST"
 text=$(cat package.json)
 target=`echo \"Error: no test specified\" && exit 1`
 new='npx mocha --config .mocharc.js'
 final=${text//'echo \"Error: no test specified\" && exit 1'/"npx mocha --config .mocharc.js"}
 $(echo $final > package.json)
-
 echo -e "   ${green}New package.json is${clear}"
 cat package.json
 
 echo 
 echo -e "${green}Step 10${clear} - Creating first tests"
-mkdir specs helpers
-touch specs/auth.spec.js helpers/auth.helper.js
+mkdir specs helpers 
+touch specs/auth.spec.js helpers/auth.helper.js 
 
 
 echo "
+//IMPORT SECTION
+//  Import supertest - HTTP Client that allows us to create and send a request from a test framework to server
 import supertest from 'supertest';
+//  Import dotenv package - to work with environmental project's variables
 import 'dotenv/config';
+    //Create a new Class for authHelper - will store response from a server in response property (variable) all the methods (functions) that related to auth
 class AuthHelper {
   constructor() {
     this.response = null;
   }
-
+    //Create a new method
   async login(userName, userPassword) {
-    //Send async request
+    //Create, setup, send request to server, wait for the response (async/await) and save the respponse from server to response property (variable)
     await supertest(process.env.BASE_URL)
       //Setup a request method - POST and an endpoint - /auth
       .post('/auth')
       //Setup payload - object with 2 keys - login and password (and their values)
       .send({ login: userName, password: userPassword })
-      //Save a response from server to result variable
+      //Save a response from server to esponse property (variable)
       .then((res) => {
         this.response = res;
       });
   }
 }
-
+    //Export the Class
 export default AuthHelper;
 " >> helpers/auth.helper.js
 echo -e "   ${green}New helpers/auth.helper.js is${clear}"
@@ -148,13 +187,20 @@ cat helpers/auth.helper.js
 
 
 echo "
+//IMPORT SECTION
+//  Import {expect} assertion function from Chai assertion library
 import { expect } from 'chai';
+//  Import helper(s)
 import AuthHelper from '../helpers/auth.helper';
+//  Creating a new instance of helper(s)
 const authHelper = new AuthHelper();
+//  Main Test Suite
 describe('\nSuccessful login sub suite (happy path with valid login and password)', () => {
+    //BEFORE hook
   before(async () => {
     await authHelper.login(process.env.LOGIN, process.env.PASSWORD);
   });
+    //Test Cases
   it('Checking that response status code is 200', () => {
     expect(authHelper.response.statusCode).to.eq(200);
   });
@@ -170,13 +216,19 @@ describe('\nSuccessful login sub suite (happy path with valid login and password
 echo -e "   ${green}New helpers/auth.helper.js is${clear}"
 cat specs/auth.spec.js
 
+
+
+
+echo 
+echo -e "${green}Step 11${clear} - Setting up environmental variables (.env and .env.example)!"
+
 touch .env .env.example
 
 
 echo '
-BASE_URL="https://paysis.herokuapp.com"
-LOGIN="adminius"
-PASSWORD="supers3cret"
+BASE_URL="ENTER-URL-OF-YOUR-PROJECT"
+LOGIN="ENTER-ADMIN-LOGIN"
+PASSWORD="ENTER-ADMIN-PASSWORD"
 ' >> .env
 
 
@@ -187,11 +239,11 @@ PASSWORD="tralala"
 ' >> .env.example
 
 echo 
-echo -e "${green}Step 11${clear} - RUN the TESTS!"
+echo -e "${green}Step 12${clear} - RUN the TESTS!"
 echo $(npm run test)
 
 echo 
-echo -e "${green}Step 12 - IT'S TIME TO PUSH ALL THE CHANGES TO YOUR GITHUB REPO! ${clear}"
+echo -e "${green}Step 13 - IT'S TIME TO PUSH ALL THE CHANGES TO YOUR GITHUB REPO! ${clear}"
 echo $(git status)
 echo $(git add .)
 echo $(git status)

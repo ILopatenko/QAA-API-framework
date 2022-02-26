@@ -8,3 +8,7 @@ echo "Running tests $counter"
 npm run test
 let counter++
 done
+
+
+
+
