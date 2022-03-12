@@ -62,7 +62,7 @@ echo $(git clone $1)
 
  if [ -d $(pwd)"/"$projectName ]
     then
-    echo -e "  ${green}Your progect was clonned!${clear}"
+    echo -e "  ${green}Your project was clonned!${clear}"
     
     else
     echo -e "  ${red}ERROR!${clear}"
@@ -73,7 +73,7 @@ cd $projectName
 echo $(npm init -y)
 if [ -f 'package.json' ] 
 then
-    echo -e    "   ${green}Progect was created!${clear}"
+    echo -e    "   ${green}Project was created!${clear}"
 else
     echo -e "  ${red}ERROR!${clear}"
 fi
