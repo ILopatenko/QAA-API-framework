@@ -1,5 +1,6 @@
 #!/bin/bash
-#v0.3 - fixed name separation and test script
+#v0.4 - fixed name separation and test script
+#v0.5 - added test reporter mochaawesome
 #22/02/2022
 # Color variables
 red='\033[0;31m'
@@ -78,7 +79,7 @@ else
     echo -e "  ${red}ERROR!${clear}"
 fi
 echo 
-echo -e "${green}Step 5${clear} - Installing all the 3rd party packages: babel, mocha, chai, supertest, dotenv, express, body-parser"
+echo -e "${green}Step 5${clear} - Installing all the 3rd party packages: babel, mocha, chai, supertest, dotenv, express, body-parser mochawesome"
 echo $(npm i -D @babel/cli @babel/core @babel/plugin-transform-runtime @babel/preset-env @babel/register mocha chai supertest dotenv express body-parser )
 echo
 echo -e "${green}Step 6${clear} - Setting up babel"
@@ -105,7 +106,8 @@ echo "module.exports = {
     //Setup all the specs that will be ignored
   //ignore: 'specs/example.spec',
     //Setup additionall timeout (2000 by default)
-  //timeout: 10000
+  //timeout: 10000,
+  reporter: 'mochawesome',
 }" >> .mocharc.js
 echo -e "   ${green}New .mocharc.js is${clear}"
 cat .mocharc.js
